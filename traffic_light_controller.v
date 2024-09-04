@@ -1,3 +1,25 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 11.08.2023 12:13:44
+// Design Name: 
+// Module Name: traffic
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
 module traffic(sensor,clk,highway,farmway,state,count,load,dec);
 input sensor,clk;
 output reg [2:0] highway,farmway;  // RYG
@@ -8,6 +30,7 @@ parameter s0 = 2'b00,s1 = 2'b01,s2 = 2'b10,s3 = 2'b11;
 output reg load,dec;
 reg [2:0] in;
 output wire [2:0] count;
+
 counter c(load,in,count,dec,clk);
 
 always@(posedge clk)
@@ -15,7 +38,7 @@ begin
 case(state)
 s0 : if(sensor == 1'b0) state <= s0;
      else if(sensor == 1'b1 && count == 3'b000) state <= s1;
-     else state <= s0;
+    // else state <= s0;
 s1 : if(count == 3'b000) state <= s2;
      else state <= s1;
 s2 : if(count == 3'b000) state <= s3;
@@ -26,6 +49,7 @@ s3 : if(count == 3'b000) state <= s0;
 default : begin state <= s0; end
 endcase
 end
+
 
 always@(posedge clk)
 begin
